@@ -2,6 +2,7 @@ package main
 
 import (
 	"api/pkg/e"
+	"api/pkg/logging"
 	"api/pkg/setting"
 	"context"
 	"fmt"
@@ -16,6 +17,7 @@ import (
 func main() {
 	log.Fatal("Hello, api 正在启动中")
 	setting.SetUp() //初始化配置文件
+	logging.SetUp() //设置日志文件
 	log.Println(setting.ServerSetting.HttpPort)
 
 	router := gin.Default()
