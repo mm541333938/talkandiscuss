@@ -1,12 +1,12 @@
 package main
 
 import (
-	"api/pkg/e"
+	"api/models"
 	"api/pkg/logging"
 	"api/pkg/setting"
+	"api/routers"
 	"context"
 	"fmt"
-	"github.com/gin-gonic/gin"
 	"log"
 	"net/http"
 	"os"
@@ -18,17 +18,19 @@ func main() {
 	log.Fatal("Hello, api 正在启动中")
 	setting.SetUp() //初始化配置文件
 	logging.SetUp() //设置日志文件
+	models.SetUp()  //设置数据库
+
 	log.Println(setting.ServerSetting.HttpPort)
 
-	router := gin.Default()
+	router := routers.InitRouter() // 初始化路由
 
-	router.GET("/test", func(context *gin.Context) {
-		context.JSON(e.SUCCESS, gin.H{
-			"Code": e.SUCCESS,
-			"Msg":  e.GetMsg(e.SUCCESS),
-			"Data": "返回数据成功",
-		})
-	})
+	//router.GET("/test", func(context *gin.Context) {
+	//	context.JSON(e.SUCCESS, gin.H{
+	//		"Code": e.SUCCESS,
+	//		"Msg":  e.GetMsg(e.SUCCESS),
+	//		"Data": "返回数据成功",
+	//	})
+	//})
 
 	s := &http.Server{
 		Addr:           fmt.Sprintf(":%d", setting.ServerSetting.HttpPort),
